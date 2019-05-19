@@ -1,0 +1,24 @@
+{
+  "name": "noodlee-deploy-server",
+  "version": "1.0.0",
+  "description": "Simple Node.js server that integrates with Github Webhooks to ensure the automatic deployment of our application.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/noodlee-system/noodlee-deploy-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/noodlee-system/noodlee-deploy-server/issues"
+  },
+  "homepage": "https://github.com/noodlee-system/noodlee-deploy-server#readme",
+  "dependencies": {
+    "express": "^4.17.0"
+  }
+}
