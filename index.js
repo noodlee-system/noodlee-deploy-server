@@ -1,7 +1,34 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+const configureDeployment = require('./functions/configure-deployment');
+const { exec } = require('child_process');
 
-app.get('/', (req, res) => res.send('Hello World!'));
+// Prepare server configuration
+const serverConfig = configureDeployment();
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+// Prepare server description
+const serverName = serverConfig.serverName;
+const serverPort = serverConfig.port;
+
+// Prepare jobs to make
+if (Array.isArray(serverConfig.jobs) && serverConfig.jobs.length > 0) {
+    serverConfig.jobs.forEach((jobObject) => {
+        app.get(`/job/${jobObject.id}`, (req, res) => {
+            res.send(`${jobObject.name} job success!`);
+            
+            // Run deploy shell script
+            exec('./deploy.sh', (err) => {
+                if (err) {
+                    // node couldn't execute the command
+                    return;
+                }
+
+                console.log("Deploy process success!");
+            });
+        });
+    });
+} else {
+    console.error("ERROR: Deployment configuration is not an array!");
+}
+
+app.listen(serverPort, () => console.log(`${serverName} listening on port ${serverPort}!`));

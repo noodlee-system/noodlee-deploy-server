@@ -1,0 +1,8 @@
+[
+    {
+        "id": "job_guid",
+        "name": "job_name",
+        "repo_url": "https://github.com/application-or-user-name/repo-name.git",
+        "deployment_branch": "master"
+    }
+]
