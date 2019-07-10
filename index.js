@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const configureDeployment = require('./functions/configure-deployment');
-const { exec } = require('child_process');
 
 // Prepare server configuration
 const serverConfig = configureDeployment();
@@ -10,25 +9,19 @@ const serverConfig = configureDeployment();
 const serverName = serverConfig.serverName;
 const serverPort = serverConfig.port;
 
-// Prepare jobs to make
+// Prepare deploy server jobs
 if (Array.isArray(serverConfig.jobs) && serverConfig.jobs.length > 0) {
+    const runDeployJob = require('./functions/run-deploy-job');
+
     serverConfig.jobs.forEach((jobObject) => {
         app.get(`/job/${jobObject.id}`, (req, res) => {
-            res.send(`${jobObject.name} job success!`);
-            
-            // Run deploy shell script
-            exec('./deploy.sh', (err) => {
-                if (err) {
-                    // node couldn't execute the command
-                    return;
-                }
+            res.send(`${jobObject.name} job started...`);
 
-                console.log("Deploy process success!");
-            });
+            runDeployJob(jobObject);
         });
     });
 } else {
-    console.error("ERROR: Deployment configuration is not an array!");
+    console.error("ERROR: Deployment configuration is not an object array!");
 }
 
 app.listen(serverPort, () => console.log(`${serverName} listening on port ${serverPort}!`));
