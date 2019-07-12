@@ -3,8 +3,8 @@ const shell = require('shelljs');
 function runDeployJob(jobObject) {
     console.log(`${jobObject.name} job with id ${jobObject.id} started...`);
 
-    if (!shell.which('git') || !shell.which('docker')) {
-        console.error('ERROR: Sorry, deploy scripts requires git and docker!');
+    if (!shell.which('git')) {
+        console.error('ERROR: Sorry, deploy scripts requires git!');
         return;
     }
 

@@ -24,4 +24,4 @@ if (Array.isArray(serverConfig.jobs) && serverConfig.jobs.length > 0) {
     console.error("ERROR: Deployment configuration is not an object array!");
 }
 
-app.listen(serverPort, () => console.log(`${serverName} listening on port ${serverPort}!`));
+app.listen(serverPort, "127.0.0.1", () => console.log(`${serverName} listening on port ${serverPort}!`));
